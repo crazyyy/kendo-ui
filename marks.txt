@@ -1,0 +1,15 @@
+Привіт,
+ 
+Скачай тріал - http://www.telerik.com/kendo-ui
+Там є компонент - http://demos.telerik.com/kendo-ui/map/index
+В foursquare є свій API - https://developer.foursquare.com/docs/
+ 
+Спробуй зробити сторінку, яка буде брати дані з foursquare і виводити їх на карту kendo-ui. Наприклад, список ресторанів в вибраному місті. Місто можна вибирати із випадаючого списку, який теж є контролом kendo-ui.
+ 
+Політ фантазії необмежений. Можеш вдосконалювати таск як хочеш. Якщо щось не зрозуміло і є питання як по завданню, так і технічні – звертайся, спробуємо допомогти.
+ 
+ 
+Sincerely,
+Oleksandr Goncharuk
+Technical Leader
+Delphi
