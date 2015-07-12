@@ -44,27 +44,27 @@
 
         <div id="example" ng-app="KendoDemos">
 
-          <div ng-controller="MyCtrl">
+          <div ng-controller="MyController">
             <div class="demo-section k-content">
 
               <div>
                 <h4>Pan the map around</h4>
                     <div kendo-map
-                         k-center="[30.268107, -97.744821]"
-                         k-zoom="15"
-                         k-layers="[{
-                             type: 'bing',
-                             imagerySet: 'aerialWithLabels',
-                             key: 'AjQF548guEF8MWgEspVokNny7l_GULKsZ81tR-LvPK96Bm3REkCjNHs2aC_b7nvF'
-                         }, {
-                             type: 'marker',
-                             dataSource: markers,
-                             locationField: 'latlng',
-                             titleField: 'name'
-                         }]"
-                         k-pan-end="onPanEnd"
-                         style="height: 400px;">
-                     </div>
+                         k-center="[49.13, 28.28]"
+                 k-zoom="15"
+                 k-layers="[{
+                     type: 'bing',
+                     imagerySet: 'aerialWithLabels',
+                     key: 'AjQF548guEF8MWgEspVokNny7l_GULKsZ81tR-LvPK96Bm3REkCjNHs2aC_b7nvF'
+                 }, {
+                     type: 'marker',
+                     dataSource: objects,
+                     locationField: 'latlng',
+                     titleField: 'name'
+                 }]"
+                 k-pan-end="onPanEnd"
+                 style="height: 400px;">
+             </div>
                 </div>
                 <div style="padding-top: 1em;">
                     <h4>Console</h4>
@@ -76,20 +76,25 @@
 
           <script>
             angular.module("KendoDemos", [ "kendo.directives" ])
-                .controller("MyCtrl", function($scope){
-                    $scope.onPanEnd = function(e) {
-                        kendoConsole.log(kendo.format("event :: panEnd ({0})", e.center));
-                    };
+            .controller("MyController", function($scope){
+              $scope.onPanEnd = function(e) {
+                kendoConsole.log(kendo.format("event :: panEnd ({0})", e.center));
+              };
 
-                    $scope.markers = new kendo.data.DataSource({
-                        transport: {
-                            read: {
-                                url: "content/store-locations.json",
-                                dataType: "json"
-                            }
-                        }
-                    });
-                })
+              $scope.markers = new kendo.data.DataSource({
+                transport: {
+                  read: {
+                    url: "content/store-locations.json",
+                    dataType: "json"
+                  }
+                };
+              });
+
+              $scope.objects = { 'name' : 'Vinnitsa', 'latlng' : '49.13, 28.28' };
+
+              console.log($scope.markers);
+              console.log($scope.objects);
+            })
           </script>
         </div>
 

@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 /* if work with html == true, else - false */
 var htmlOWp = true,
   wpThemeName = 'wp-framework',
-  wpDomain = 'wp-framework.dev';
+  wpDomain = 'kendo.dev';
 
 var AUTOPREFIXER_BROWSERS = [
   'ie >= 8', 'ie_mob >= 10', 'ff >= 20', 'chrome >= 24', 'safari >= 5', 'opera >= 12', 'ios >= 7', 'android >= 2.3', '> 1%', 'last 4 versions', 'bb >= 10'
@@ -142,22 +142,13 @@ gulp.task('styles', function () {
 });
 
 gulp.task('serve', ['sprite', 'images', 'scripts', 'styles', 'fonts'], function () {
-  if (htmlOWp === true) {
-    browserSync({
-      notify: false,
-      port: 9000,
-      server: {
-        baseDir: basePaths.dest,
-      }
-    });
-  } else {
-    browserSync({
-      notify: false,
-      proxy: wpDomain,
-      host: wpDomain,
-      port: 8080
-    });
-  }
+  browserSync({
+    notify: false,
+    proxy: wpDomain,
+    host: wpDomain,
+    port: 8182
+  });
+
 
   // watch for changes
   gulp.watch([
