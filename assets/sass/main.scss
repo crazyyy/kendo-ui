@@ -8,6 +8,8 @@
 @import 'sprite';
 @import 'font_fontawesome';
 @import 'font_roboto';
+// kendo
+@import 'examples-offline';
 
 body {
   font-family: $base-font-family;
@@ -87,6 +89,7 @@ picture {
 
 header {
   background-color: $light-gray;
+  height: 100px;
   .logo {
     display: block;
 
@@ -113,6 +116,7 @@ section {
   padding: 0 0 $footer;
 }
 article {
+  padding: 25px;
   @extend .clearfix;
 }
 .looper {
