@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic usage</title>
+  <meta charset="utf-8">
+  <link href="css/examples-offline.css" rel="stylesheet">
+  <link href="css/kendo.common.min.css" rel="stylesheet">
+  <link href="css/kendo.rtl.min.css" rel="stylesheet">
+  <link href="css/kendo.default.min.css" rel="stylesheet">
+  <link href="css/kendo.dataviz.min.css" rel="stylesheet">
+  <link href="css/kendo.dataviz.default.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/kendo.all.min.js"></script>
+  <script src="js/console.js"></script>
+
+</head>
+<body>
+
+  <div id="example">
+
+    <div id="map"></div>
+
+    <script>
+    function createMap() {
+      $("#map").kendoMap({
+        center: [30.268107, -97.744821],
+        zoom: 3,
+        layers: [{
+          type: "tile",
+          urlTemplate: "http://#= subdomain #.tile.openstreetmap.org/#= zoom #/#= x #/#= y #.png",
+          subdomains: ["a", "b", "c"],
+          attribution: "&copy; <a href='http://osm.org/copyright'>OpenStreetMap contributors</a>"
+        }],
+        markers: [{
+          location: [30.268107, -97.744821],
+          shape: "pinTarget",
+          tooltip: {
+            content: "Austin, TX"
+          }
+        }]
+      });
+    }
+
+    $(document).ready(createMap);
+    </script>
+</div><!-- /#example -->
+
+</body>
+</html>
