@@ -1,0 +1,112 @@
+[{
+    "meta": {
+        "code": 200
+    },
+    "notifications": [{
+        "type": "notificationTray",
+        "item": {
+            "unreadCount": 53
+        }
+    }],
+    "response": {
+        "venues": [{
+            "id": "4df887a6b3adc73dcf32b197",
+            "name": "Сушия \/ Sushiya",
+            "contact": {
+                "phone": "0432656596",
+                "formattedPhone": "0432 656 596",
+                "twitter": "sushiya_ukraine",
+                "facebook": "137579882923240",
+                "facebookUsername": "sushiya.ukraine",
+                "facebookName": "СушиЯ - рестораны современной японской кухни"
+            },
+            "location": {
+                "address": "вул. Козицького, 51",
+                "lat": 49.233404506940055,
+                "lng": 28.471198081970215,
+                "distance": 2714,
+                "cc": "UA",
+                "city": "Вінниця",
+                "state": "Вінницька обл.",
+                "country": "Україна",
+                "formattedAddress": ["вул. Козицького, 51", "Вінниця"]
+            },
+            "categories": [{
+                "id": "4bf58dd8d48988d1d2941735",
+                "name": "Sushi Restaurant",
+                "pluralName": "Sushi Restaurants",
+                "shortName": "Sushi",
+                "icon": {
+                    "prefix": "https:\/\/ss3.4sqi.net\/img\/categories_v2\/food\/sushi_",
+                    "suffix": ".png"
+                },
+                "primary": true
+            }],
+            "verified": true,
+            "stats": {
+                "checkinsCount": 2404,
+                "usersCount": 1001,
+                "tipCount": 58
+            },
+            "url": "http:\/\/www.sushiya.ua",
+            "specials": {
+                "count": 1,
+                "items": [{
+                    "id": "55a2f23a498e4f6eb4142e11",
+                    "type": "frequency",
+                    "message": "Вітаємо в Оазисі Твого Міста! \nСпробуй нові напої та салати зі спеціального Оазис меню, які допоможуть відновити енергію цим спекотним літом!",
+                    "photo": {
+                        "id": "55a2f23a498e13f0f23a59d4",
+                        "createdAt": 1436742202,
+                        "prefix": "https:\/\/irs0.4sqi.net\/img\/general\/",
+                        "suffix": "\/27104421__T1HWXlYkzYVx0O5Os8MU8Y5Q-8POARhenIwjrCKPUE.jpg",
+                        "width": 950,
+                        "height": 1039
+                    },
+                    "description": "",
+                    "unlocked": true,
+                    "icon": "default",
+                    "title": "Special",
+                    "state": "unlocked",
+                    "provider": "foursquare",
+                    "redemption": "webview",
+                    "interaction": {
+                        "entryUrl": "https:\/\/foursquare.com\/device\/specials\/55a2f23a498e4f6eb4142e11?venueId=4df887a6b3adc73dcf32b197"
+                    },
+                    "page": {
+                        "id": "27104421",
+                        "firstName": "Сушия \/ Sushiya",
+                        "gender": "none",
+                        "photo": {
+                            "prefix": "https:\/\/irs2.4sqi.net\/img\/user\/",
+                            "suffix": "\/EV3GHALEBGYBLYUF.jpg"
+                        },
+                        "type": "chain",
+                        "tips": {
+                            "count": 1044
+                        },
+                        "lists": {
+                            "groups": [{
+                                "type": "created",
+                                "count": 1,
+                                "items": []
+                            }]
+                        },
+                        "homeCity": "Kyiv, Ukraine",
+                        "bio": "",
+                        "contact": {
+                            "twitter": "sushiya_ukraine"
+                        }
+                    }
+                }]
+            },
+            "hereNow": {
+                "count": 0,
+                "summary": "Nobody here",
+                "groups": []
+            },
+            "storeId": "",
+            "referralId": "v-1437136355"
+        }]
+    }
+}]
