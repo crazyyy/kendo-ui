@@ -18,14 +18,22 @@
 </head>
 <body>
 
-  <div id="example">
+  <section>
+    <div class="search-block">
+      <input type="text" class="city" placeholder="city" autocomplete="on" runat="server">
+      <input type="text" class="type" placeholder="type">
 
+
+<input id="searchTextField" type="text" size="50" placeholder="Enter a location" />
+
+    </div><!-- /.search-block -->
     <div id="map"></div>
+  </section>
 
-  </div><!-- /#example -->
-  <div id="results">
-    <button id="location">locate</button>
-  </div>
+
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+
+
 
 </body>
 </html>
