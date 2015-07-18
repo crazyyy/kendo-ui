@@ -10,30 +10,31 @@
   <link href="css/kendo.dataviz.min.css" rel="stylesheet">
   <link href="css/kendo.dataviz.default.min.css" rel="stylesheet">
   <link href="css/main.css" rel="stylesheet">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/kendo.all.min.js"></script>
-  <script src="js/console.js"></script>
-  <script src="js/scripts.js"></script>
+  <script src="js/modernizr.js"></script>
+
+
 
 </head>
 <body>
 
   <section>
     <div class="search-block">
-      <input type="text" class="city" placeholder="city" autocomplete="on" runat="server">
-      <input type="text" class="type" placeholder="type">
+      <label for="searchTextField">В якому місті, або поблизу якого об'єкту шукати?</label>
+      <input id="searchTextField" type="text" placeholder="Почніть вводити якусь адресу / організацію / заклад" autocomplete="on" runat="server" />
 
+      <input id="searchCategories" placeholder="Що шукаєм? (наприклад ресторан)"/>
+      <button id="clicker">clicker</button>
 
-<input id="searchTextField" type="text" size="50" placeholder="Enter a location" />
 
     </div><!-- /.search-block -->
     <div id="map"></div>
   </section>
 
-
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
-
-
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/kendo.all.min.js"></script>
+  <script src="js/console.js"></script>
+  <script src="js/scripts.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,16 @@
+{
+  "name": "kendo-ui",
+  "version": "0.0.0",
+  "homepage": "https://github.com/crazyyy/kendo-ui",
+  "authors": [
+    "crazyyy <crazyyy@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
