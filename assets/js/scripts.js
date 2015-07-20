@@ -2,9 +2,6 @@
 //  https://www.mapbox.com/mapbox.js/example/v1.0.0/places-from-foursquare/
 /// ***********
 
-// restaurant
-// bar
-
 var fsqId = '2TVA3RGPADXOJJPZY4VBRWZPJ0GNBLLKLMGEL1VTARBDJ1TV',
   fsqSecret = 'FK40OEGZ1ODV1GM1C0SYMB3QYN5LYECMJ0L0JGJWRXAB5WQS',
   centerLat = '49.233083',
@@ -75,7 +72,7 @@ $("#searchCategories").kendoAutoComplete({
   },
   minLength: 1,
   filter: "startswith",
-  placeholder: "Категорія об'єкту"
+  placeholder: "Категорія об'єкту (напр. ресторан, бар...)"
 });
 
 function GoogleMapAutocomplite() {
@@ -116,10 +113,6 @@ function GetCurrentLocation() {
   }
 }; // GetCurrentLocation
 
-google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
-
-$(document).ready(GetCurrentLocation);
-
 function concatResult() {
   var checkBut = document.getElementById('sumResult');
   if (checkBut.checked ) {
@@ -129,22 +122,6 @@ function concatResult() {
     console.log('not cheked, do not clear array with result');
   }
 };
-
-searchButton.addEventListener('click', function() {
-  concatResult();
-  searchQuery = searchInput.value;
-  window.workUri = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery',searchQuery);
-  ParseAndBuildMap(centerLat,centerLng,searchQuery);
-}, false);
-
-goHomeButton.addEventListener('click', function() {
-  GetCurrentLocation();
-}, false);
-
-
-nearest.addEventListener('click', function() {
-  Nearest(dataStFull);
-}, false);
 
 function CompareObjectsInArray(a,b) {
   if ( a.distance < b.distance ) {
@@ -176,4 +153,21 @@ function Nearest(dataStFull) {
   nearestContainer.innerHTML = html;
 }
 
+searchButton.addEventListener('click', function() {
+  concatResult();
+  searchQuery = searchInput.value;
+  window.workUri = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery',searchQuery);
+  ParseAndBuildMap(centerLat,centerLng,searchQuery);
+}, false);
 
+goHomeButton.addEventListener('click', function() {
+  GetCurrentLocation();
+}, false);
+
+nearest.addEventListener('click', function() {
+  Nearest(dataStFull);
+}, false);
+
+google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
+
+$(document).ready(GetCurrentLocation);
