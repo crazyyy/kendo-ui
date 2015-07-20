@@ -22,8 +22,12 @@
       <label for="searchTextField">В якому місті, або поблизу якого об'єкту шукати?</label>
       <input id="searchTextField" type="text" placeholder="Почніть вводити якусь адресу / організацію / заклад" autocomplete="on" runat="server" />
 
-      <input id="searchCategories" placeholder="Що шукаєм? (наприклад ресторан)"/>
-      <button id="clicker">clicker</button>
+      <input id="searchCategories" placeholder="Що шукаєм? (наприклад ресторан)" value=""/>
+      <label for="sumResult">Об'єднати результат пошуку з попереднім?<input id="sumResult" type="checkbox"></label>
+
+      <button id="goSearch">Шукати об'єкти на карті</button>
+      <button id="goHome">Моє мізцезнаходження</button>
+      <button id="nearest">Найближчі об'єкти</button>
 
 
     </div><!-- /.search-block -->
