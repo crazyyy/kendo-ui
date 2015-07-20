@@ -15,8 +15,7 @@ var fsqId = '2TVA3RGPADXOJJPZY4VBRWZPJ0GNBLLKLMGEL1VTARBDJ1TV',
 var searchButton = document.getElementById('goSearch');
 var goHomeButton = document.getElementById('goHome');
 var searchInput = document.getElementById('searchCategories');
-
-var rec = document.getElementById('rec');
+var nearest = document.getElementById('nearest');
 
 function ParseAndBuildMap(centerLat,centerLng) {
   var workUri = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery',searchQuery);
@@ -65,6 +64,19 @@ function OnClickMap(e) {
   centerLng = parseFloat(e.location.lng);
   ParseAndBuildMap(centerLat,centerLng);
 }; // OnClickMap
+
+$("#searchCategories").kendoAutoComplete({
+  dataTextField: "name",
+  dataSource: {
+    type: "json",
+    transport: {
+      read: "content/cat.json"
+    }
+  },
+  minLength: 1,
+  filter: "startswith",
+  placeholder: "Категорія об'єкту"
+});
 
 function GoogleMapAutocomplite() {
   var input = document.getElementById('searchTextField');
@@ -129,10 +141,10 @@ goHomeButton.addEventListener('click', function() {
   GetCurrentLocation();
 }, false);
 
-rec.addEventListener('click', function() {
-  SortDistance(dataStFull);
-}, false);
 
+nearest.addEventListener('click', function() {
+  Nearest(dataStFull);
+}, false);
 
 function CompareObjectsInArray(a,b) {
   if ( a.distance < b.distance ) {
@@ -144,27 +156,24 @@ function CompareObjectsInArray(a,b) {
   };
 };
 
-function SortDistance(dataStFull) {
-  dataStFull.sort(CompareObjectsInArray);
-  console.log(dataStFull.distance);
-  console.log(dataStFull[1].distance);
-  console.log(dataStFull[2].distance);
-}
-
 function Nearest(dataStFull) {
-  console.log(dataStFull[0].distance);
+  dataStFull.sort(CompareObjectsInArray);
+  var nearestContainer = document.getElementById('nearestContainer');
+  var html = '<tr>
+    <th>Відстань (м.)</th>
+    <th>Назва закладу</th>
+    <th>Адреса</th>
+  </tr>';
+  for ( var i = 0 ; i < dataStFull.length ; i++ ) {
+    console.log(dataStFull[i].name);
+    console.log();
+    html  += ('<tr>
+      <td>'+ dataStFull[i].distance + '</td>
+      <td>'+ dataStFull[i].name + '</td>
+      <td>'+ dataStFull[i].address + '</td>
+    </tr>');
+  };
+  nearestContainer.innerHTML = html;
 }
 
 
-$("#searchCategories").kendoAutoComplete({
-  dataTextField: "name",
-  dataSource: {
-    type: "json",
-    transport: {
-      read: "content/cat.json"
-    }
-  },
-  minLength: 1,
-  filter: "startswith",
-  placeholder: "Категорія об'єкту"
-});
