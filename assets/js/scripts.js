@@ -1,7 +1,3 @@
-/// ***********
-//  https://www.mapbox.com/mapbox.js/example/v1.0.0/places-from-foursquare/
-/// ***********
-
 var fsqId = '2TVA3RGPADXOJJPZY4VBRWZPJ0GNBLLKLMGEL1VTARBDJ1TV',
   fsqSecret = 'FK40OEGZ1ODV1GM1C0SYMB3QYN5LYECMJ0L0JGJWRXAB5WQS',
   centerLat = '49.233083',
@@ -14,26 +10,69 @@ var goHomeButton = document.getElementById('goHome');
 var searchInput = document.getElementById('searchCategories');
 var nearest = document.getElementById('nearest');
 
-function ParseAndBuildMap(centerLat,centerLng) {
+function ParseJson(result) {
+  for (var i = 0; i < result.response.venues.length; i++) {
+    var venue = result.response.venues[i];
+
+    dataStFull.push({
+      name : venue.name,
+      latlng : [venue.location.lat, venue.location.lng],
+      distance : venue.location.distance,
+      address : venue.location.formattedAddress,
+      city : venue.location.city,
+      id : venue.id,
+      catName : venue.categories[0].name,
+      catImage : venue.categories[0].icon.prefix+'32'+venue.categories[0].icon.suffix,
+      shape : 'pinTarget'
+      // shape : 'pin'
+    });
+  };
+
+  return dataStFull;
+}
+
+// create started API URI from current user location (or default location) and parse
+function ParseAndBuildMap(centerLat, centerLng) {
   var workUri = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery',searchQuery);
   $.getJSON(workUri.replace('cordCenter',(centerLat + ',' + centerLng)), function(result, status) {
     if (status !== 'success') return alert('Request to Foursquare failed');
-    for (var i = 0; i < result.response.venues.length; i++) {
-      var venue = result.response.venues[i];
-        dataStFull.push({
-          name : venue.name,
-          latlng : [venue.location.lat, venue.location.lng],
-          distance : venue.location.distance,
-          address : venue.location.formattedAddress
-        });
-    };
-
+    ParseJson(result);
     var dataSorces = new kendo.data.DataSource({
       data: dataStFull
     });
+    console.log(dataSorces);
     MapDrawer(centerLat,centerLng,dataSorces);
   });
 } // ParseAndBuildMap
+
+
+
+
+function MakeMarkers (dataSorces) {
+  makedMarkers = {
+    type: 'marker',
+    dataSource: dataSorces,
+    locationField: 'latlng',
+    titleField: 'name',
+    shape : 'green',
+    city : 'city',
+    // tooltip: {
+    //   template: "Lon:#= location.lng #, Lat:#= name #"
+    // }
+    tooltip: {
+      content: function(e) {
+        var marker = e.sender.marker;
+        var template = kendo.template("HTML tags are encoded: #: html #");
+        var data = { html: "<strong>#= marker.dataItem.city #</strong>" };
+        // return marker.dataItem.city;
+        return template(data);
+      }
+    }
+  };
+  return makedMarkers;
+};
+
+
 
 function MapDrawer(centerLat,centerLng,dataSorces) {
   $("#map").kendoMap({
@@ -43,18 +82,42 @@ function MapDrawer(centerLat,centerLng,dataSorces) {
       type: 'tile',
       urlTemplate: 'http://#= subdomain #.tile2.opencyclemap.org/transport/#= zoom #/#= x #/#= y #.png',
       subdomains: ['a', 'b', 'c'],
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap contributors</a>.' + 'Tiles courtesy of <a href="http://www.opencyclemap.org/">Andy Allan</a>',
+      attribution: '&cop;y <a href="http://osm.org/copyright">OpenStreetMap contributors</a>.' + 'Tiles courtesy of <a href="http://www.opencyclemap.org/">Andy Allan</a>',
     },
-    {
-      type: "marker",
-      dataSource: dataSorces,
-      locationField: "latlng",
-      titleField: 'name'
-    }],
-    click: OnClickMap
+    MakeMarkers(dataSorces)
+    ],
+    markerClick: OnClickMarker,
+    // click: OnClickMap,
   });
-
+  console.log(MakeMarkers(dataSorces));
 } // MapDrawer
+
+function SearchAndReplaceData (markerId) {
+
+  for (var i in window.dataStFull) {
+   if (window.dataStFull[i].id === markerId) {
+    window.dataStFull[i].shape = 'pin';
+    console.log(window.dataStFull[i]);
+      break;
+    }
+  }
+
+};
+
+function OnClickMarker(e){
+  var marker = e.marker,
+  markerId = marker.dataItem.id;
+
+SearchAndReplaceData(markerId);
+
+
+  // console.log(marker.dataItem.name);
+  // marker.dataItem.set("shape", "pin");
+  // marker.dataItem.set("name", "pin");
+  // console.log(marker);
+
+
+};
 
 function OnClickMap(e) {
   var centerLat = parseFloat(e.location.lat),
