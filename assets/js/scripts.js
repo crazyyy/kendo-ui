@@ -38,39 +38,43 @@ function ParseJson(result) {
 
 
 function DataImageAdd(dataStFull) {
-  console.log('test');
   for (var ii = 0; ii < dataStFull.length; ii++) {
-    var workImageUrl = 'https://api.foursquare.com/v2/venues/' + dataStFull[ii].id + '/photos?oauth_token=' + fsqToken + '&v=20150724';
+    var idD = dataStFull[ii].id;
+    var workImageUrl = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724';
+// console.log('DataID: ' + dataStFull[ii].id);
+console.log(ii);
+console.log('y ' + ii + '' + idD);
 
-      $.getJSON(workImageUrl, function(result, status, ii) {
+      $.getJSON(workImageUrl, function(result, status, idD, ii) {
+
+console.log('x ');
+console.log(idD);
         if (status !== 'success') return alert('Request Img from Foursquare failed');
-
         var photosItems = result.response.photos.items;
-
         if (photosItems.length > 10) {
           photosItems.length = 10;
         }
 
-    for (var i = 0; i < photosItems.length; i++ ) {
-      photoA = photosItems[i];
-      console.log(photoA.id.length);
-      photosArr.push({
-        idImaget : photoA.id,
-        prefix : photoA.prefix,
-        suffix : photoA.suffix,
-        width : photoA.width,
-        height : photoA.height,
-        cropedImg : photoA.prefix + '300x300' + photoA.suffix,
-        fullImg : photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
-      });
+        for (var i = 0; i < photosItems.length; i++ ) {
+          photoA = photosItems[i];
+          photosArr.push({
+            idData : idD.toString(),
+            idImaget : photoA.id,
+            prefix : photoA.prefix,
+            suffix : photoA.suffix,
+            width : photoA.width,
+            height : photoA.height,
+            cropedImg : photoA.prefix + '300x300' + photoA.suffix,
+            fullImg : photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
+          });
 
-      // dataStFull.push(photosArr)
+        // dataStFull.push(photosArr)
 
-      // console.log(dataStFull);
+      }
+console.log(photosArr);
 
-    }
 
-      });
+    }); // getJSON
 
 
 
