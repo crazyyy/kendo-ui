@@ -25,11 +25,11 @@ function ParseJson(result) {
       id : venue.id,
       catName : venue.categories[0].name,
       catImage : venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix,
-      shape : 'pinTarget',
+      shape : 'pinTarget'
 
       // shape : 'pin'
     });
-  };
+  }
 
   DataImageAdd(dataStFull);
 
@@ -41,14 +41,13 @@ function DataImageAdd(dataStFull) {
   for (var ii = 0; ii < dataStFull.length; ii++) {
     var idD = dataStFull[ii].id;
     var workImageUrl = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724';
-// console.log('DataID: ' + dataStFull[ii].id);
-console.log(ii);
-console.log('y ' + ii + '' + idD);
+      // console.log('DataID: ' + dataStFull[ii].id);
+      console.log(ii);
+      console.log('y ' + ii + '' + idD);
 
       $.getJSON(workImageUrl, function(result, status, idD, ii) {
-
-console.log('x ');
-console.log(idD);
+        console.log('x ');
+        console.log(idD);
         if (status !== 'success') return alert('Request Img from Foursquare failed');
         var photosItems = result.response.photos.items;
         if (photosItems.length > 10) {
@@ -71,7 +70,7 @@ console.log(idD);
         // dataStFull.push(photosArr)
 
       }
-console.log(photosArr);
+      console.log(photosArr);
 
 
     }); // getJSON
@@ -79,7 +78,7 @@ console.log(photosArr);
 
 
   }
-};
+}
 
 
 
@@ -152,7 +151,7 @@ function MakeMarkers (dataSorces) {
     }
   };
   return makedMarkers;
-};
+}
 
 
 
@@ -164,18 +163,17 @@ function MapDrawer(centerLat,centerLng,dataSorces) {
       type: 'tile',
       urlTemplate: 'http://#= subdomain #.tile2.opencyclemap.org/transport/#= zoom #/#= x #/#= y #.png',
       subdomains: ['a', 'b', 'c'],
-      attribution: '&cop;y <a href="http://osm.org/copyright">OpenStreetMap contributors</a>.' + 'Tiles courtesy of <a href="http://www.opencyclemap.org/">Andy Allan</a>',
+      attribution: '&cop;y <a href="http://osm.org/copyright">OpenStreetMap contributors</a>.' + 'Tiles courtesy of <a href="http://www.opencyclemap.org/">Andy Allan</a>'
     },
     MakeMarkers(dataSorces)
     ],
-    markerClick: OnClickMarker,
+    markerClick: OnClickMarker
     // click: OnClickMap,
   });
   // console.log(MakeMarkers(dataSorces));
 } // MapDrawer
 
 function SearchAndReplaceData (markerId) {
-
   for (var i in window.dataStFull) {
    if (window.dataStFull[i].id === markerId) {
     window.dataStFull[i].shape = 'pin';
@@ -183,8 +181,7 @@ function SearchAndReplaceData (markerId) {
       break;
     }
   }
-
-};
+}
 
 function OnClickMarker(e){
   var marker = e.marker,
@@ -192,20 +189,18 @@ function OnClickMarker(e){
 
 SearchAndReplaceData(markerId);
 
-
   // console.log(marker.dataItem.name);
   // marker.dataItem.set("shape", "pin");
   // marker.dataItem.set("name", "pin");
   // console.log(marker);
 
-
-};
+}
 
 function OnClickMap(e) {
   var centerLat = parseFloat(e.location.lat),
   centerLng = parseFloat(e.location.lng);
   ParseAndBuildMap(centerLat,centerLng);
-}; // OnClickMap
+} // OnClickMap
 
 $("#searchCategories").kendoAutoComplete({
   dataTextField: "name",
@@ -225,7 +220,7 @@ function GoogleMapAutocomplite() {
   var autocomplete = new google.maps.places.Autocomplete(input);
   google.maps.event.addListener(autocomplete, 'place_changed', function () {
     var place = autocomplete.getPlace();
-    window.centerLat = place.geometry.location.lat(),
+    window.centerLat = place.geometry.location.lat();
     window.centerLng = place.geometry.location.lng();
 
     ParseAndBuildMap(centerLat,centerLng);
@@ -252,21 +247,21 @@ function GetCurrentLocation() {
     };
     function error(err) {
       console.warn('ERROR(' + err.code + '): ' + err.message);
-    };
+    }
   } else {
     console.log('location error');
   }
-}; // GetCurrentLocation
+} // GetCurrentLocation
 
 function concatResult() {
   var checkBut = document.getElementById('sumResult');
   if (checkBut.checked ) {
-    window.dataStFull = []
+    window.dataStFull = [];
     console.log('clear data array ');
   } else {
     console.log('not cheked, do not clear array with result');
   }
-};
+}
 
 function CompareObjectsInArray(a,b) {
   if ( a.distance < b.distance ) {
@@ -275,8 +270,8 @@ function CompareObjectsInArray(a,b) {
     return 1;
   } else {
     return 0
-  };
-};
+  }
+}
 
 function Nearest(dataStFull) {
   dataStFull.sort(CompareObjectsInArray);
@@ -317,3 +312,4 @@ google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
 
 $(document).ready(GetCurrentLocation);
 // $(document).ready(DataImageAdd(dataStFull));
+;
