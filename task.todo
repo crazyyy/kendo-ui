@@ -15,4 +15,4 @@
   ☐   working time https://api.foursquare.com/v2/venues/4e8b2b48e5fa5654b5abe656/hours?oauth_token=Y5YF5D0YOTAN0LSUOXTWLQJ231HABSAF3ZXJDUEWP45VH1HJ&v=20150724
   ☐ FSQ for default search nearby recomen places
   ☐  nearest http://demos.telerik.com/kendo-ui/fx/pageturn
-  ☐
+  ☐  suggest https://developer.foursquare.com/docs/venues/suggestcompletion
