@@ -72,6 +72,9 @@ aside {
       left: 5px;
     }
   }
+  &.aside-control-hide {
+    display: none;
+  }
 }
 .aside-nearest {
   right: 0;
@@ -118,10 +121,26 @@ aside {
   padding: .2em .2em .2em .1em;
 
   border-radius: 0 50% 50% 0;
+  .close {
+    display: inline;
+  }
+  .open {
+    display: none;
+  }
+}
+.aside-control-close-closed {
+  left: 0 !important;
+  .close {
+    display: none !important;
+  }
+  .open {
+    display: inline !important;
+  }
 }
 #aside-nearest-close {
-  display: none;
   right: 500px;
+
+  display: none;
 
   padding: .2em .1em .2em .2em;
 

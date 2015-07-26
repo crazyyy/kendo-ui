@@ -66,20 +66,32 @@ window.onresize = function(event) {
  *  Functionality
  */
 
-// event
+// when click search - run search function
 searchButton.addEventListener('click', function() {
+  SearchUserObject();
+}, false);
+
+// when press "Enter" at Search Object input - run search function
+$(searchInput).keyup(function (e) {
+  if (e.keyCode == 13) {
+    SearchUserObject()
+  }
+});
+
+function SearchUserObject() {
   concatResult();
   searchQuery = searchInput.value;
   window.uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery', searchQuery);
   ParseAndBuildMap(centerLat, centerLng, searchQuery);
-}, false);
+}
 
-// event
+
+// On click - center map to current user position
 goHomeButton.addEventListener('click', function() {
   GetCurrentLocation();
 }, false);
 
-// event
+// Display block (aside) with lists of nearest objects
 nearest.addEventListener('click', function() {
   Nearest(dataStFull);
 }, false);
@@ -88,9 +100,9 @@ nearest.addEventListener('click', function() {
 function concatResult() {
   var checkBut = document.getElementById('sumResult');
   if (checkBut.checked) {
-    window.dataStFull = [];
     console.log('clear data array ');
   } else {
+    window.dataStFull = [];
     console.log('not cheked, do not clear array with result');
   }
 }
@@ -103,11 +115,17 @@ function Nearest(dataStFull) {
   for (var i = 0; i < dataStFull.length; i++) {
     html += ('<tr><td> ' + dataStFull[i].distance + ' </td><td> ' + dataStFull[i].name + ' </td><td> ' + dataStFull[i].address + ' </td></tr>');
   };
-
   $('.aside-nearest, #aside-nearest-close ').show();
   nearestContainer.innerHTML = html;
 }
 
+// hide main search widget
+document.getElementById('aside-control-close').addEventListener('click', function() {
+  $(this).toggleClass('aside-control-close-closed');
+  $('.aside-control').toggleClass('aside-control-hide');
+}, false);
+
+// close nearest widget
 document.getElementById('aside-nearest-close').addEventListener('click', function() {
   $('.aside-nearest, #aside-nearest-close ').hide();
 }, false);
