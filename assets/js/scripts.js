@@ -27,7 +27,9 @@ var nearest = document.getElementById('nearest'); //
 var searchInput = document.getElementById('searchCategories'); // input for category search
 
 // FSQ API URI
-var uriRecommendation = 'https://api.foursquare.com/v2/venues/explore?ll=' + centerLat + ',' + centerLng + '&oauth_token=' + fsqToken + '&v=20150726';
+var SuriWork = 'https://api.foursquare.com/v2/venues/search?client_id=fsqId&client_secret=fsqSecret&v=20150717&ll=centerLat,centerLng&query=searchQuery&callback=?';
+var uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?';
+var uriRecommendation = 'https://api.foursquare.com/v2/venues/explore?ll=centerLat,centerLng&oauth_token=fsqToken&v=20150726';
 // var uriImage = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724' !!!
 
 /*
@@ -147,30 +149,7 @@ function CompareObjectsInArray(a, b) {
  *
  */
 
-function ParseJson(result) {
-  for (var i = 0; i < result.response.venues.length; i++) {
-    var venue = result.response.venues[i];
 
-    dataStFull.push({
-      name: venue.name,
-      latlng: [venue.location.lat, venue.location.lng],
-      distance: venue.location.distance,
-      addressFull: venue.location.formattedAddress,
-      address: venue.location.address,
-      city: venue.location.city,
-      id: venue.id,
-      catName: venue.categories[0].name,
-      catImage: venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix,
-      shape: 'pinTarget'
-
-      // shape : 'pin'
-    });
-  }
-
-  // DataImageAdd(dataStFull);
-
-  return dataStFull;
-}
 
 
 // function DataImageAdd(dataStFull) {
@@ -240,19 +219,7 @@ function ParseImage() {
 
 }
 
-// create started API URI from current user location (or default location) and parse
-function ParseAndBuildMap(centerLat, centerLng) {
-  var uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery', searchQuery);
-  $.getJSON(uriWork.replace('cordCenter', (centerLat + ',' + centerLng)), function(result, status) {
-    if (status !== 'success') return alert('Request to Foursquare failed');
-    ParseJson(result);
-    var dataSorces = new kendo.data.DataSource({
-      data: dataStFull
-    });
-    // console.log(dataSorces);
-    MapDrawer(centerLat, centerLng, dataSorces);
-  });
-} // ParseAndBuildMap
+
 
 function MakeMarkers(dataSorces) {
   makedMarkers = {
@@ -360,6 +327,9 @@ function GoogleMapAutocomplite() {
 } // GoogleMapAutocomplite
 
 
+
+
+
 /*
  *  Dark Side
 */
@@ -385,19 +355,110 @@ function GetCurrentLocation() {
   }
 } // GetCurrentLocation
 
+// Create working url
+function CreateURI(centerLat, centerLng) {
+  var uri = [];
+  var ulr;
+  // Check is the first load (#map clear)
+  if ($('#map').hasClass('k-map') == false) {
+    url = uriRecommendation.replace('centerLat', centerLat).replace('centerLng', centerLng).replace('fsqToken', fsqToken);
+    uri.push({
+      url: url,
+      id: 'recomendation'
+    })
+  } else {
+    url = SuriWork.replace('fsqId', fsqId).replace('fsqSecret', fsqSecret).replace('centerLat', centerLat).replace('centerLng', centerLng).replace('searchQuery', searchQuery);
+    uri.push({
+      url: url,
+      id: 'default'
+    })
+  }
 
-function Map() {
-
-  // try to define user coordinates
-  GetCurrentLocation();
   // draw map. if in previos step we defined user coord - use it, else - used default center coordinates
-  ParseAndBuildMap(centerLat, centerLng);
+  ParseAndBuildMap(uri, centerLat, centerLng);
+}
 
+// create started API URI from current user location (or default location) and parse
+function ParseAndBuildMap(uri, centerLat, centerLng) {
+  url = uri[0].url;
+  statusId = uri[0].id;
+
+  $.getJSON(url, function(result, status) {
+    if (status !== 'success') return alert('Request to Foursquare failed');
+    ParseJson(result, status, statusId);
+    var dataSorces = new kendo.data.DataSource({
+      data: dataStFull
+    });
+    MapDrawer(centerLat, centerLng, dataSorces);
+  });
+} // ParseAndBuildMap
+
+function ParseJson(result, status) {
+
+  if ( statusId == 'default' ) {
+    for (var i = 0; i < result.response.venues.length; i++) {
+      var venue = result.response.venues[i];
+      dataStFull.push({
+        name: venue.name,
+        latlng: [venue.location.lat, venue.location.lng],
+        distance: venue.location.distance,
+        addressFull: venue.location.formattedAddress,
+        address: venue.location.address,
+        city: venue.location.city,
+        id: venue.id,
+        catName: venue.categories[0].name,
+        catImage: venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix,
+        shape: 'pinTarget'
+        // shape : 'pin'
+      });
+    }
+  } else if ( statusId == 'recomendation') {
+    var tempItems = result.response.groups[0].items;
+    for (var i = 0; i < tempItems.length; i++) {
+      var venue = tempItems[i].venue;
+      dataStFull.push({
+        name: venue.name,
+        latlng: [venue.location.lat, venue.location.lng],
+        distance: venue.location.distance,
+        addressFull: venue.location.formattedAddress,
+        address: venue.location.address,
+        city: venue.location.city,
+        id: venue.id,
+        catName: venue.categories[0].name,
+        catImage: venue.categories[0].icon.prefix + '32' + venue.categories[0].icon.suffix,
+        shape: 'pin'
+        // shape : 'pin'
+      });
+    }
+  } else {
+    console.log('ERROR with URL');
+  }
+
+  console.log(dataStFull);
+
+  return dataStFull;
 }
 
 
 
 
+function Map() {
+
+  // try to define user coordinates
+  GetCurrentLocation();
+  // create api url
+  CreateURI(centerLat, centerLng);
+
+
+
+
+}
+
+function SearchOnMap(centerLat, centerLng, searchQuery) {
+  // create api url
+  CreateURI(centerLat, centerLng, searchQuery);
+
+}
 
 
 $(document).ready(Map());
