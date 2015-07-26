@@ -37,21 +37,23 @@ var uriRecommendation = 'https://api.foursquare.com/v2/venues/explore?ll=' + cen
 // Get user window height and width. Set map size
 function MapSetSize() {
   if (typeof(window.innerWidth) == 'number') {
-    myWidth = window.innerWidth;
-    myHeight = window.innerHeight;
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
   } else {
     if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
-      myWidth = document.documentElement.clientWidth;
-      myHeight = document.documentElement.clientHeight;
+      windowWidth = document.documentElement.clientWidth;
+      windowHeight = document.documentElement.clientHeight;
     } else {
       if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
-        myWidth = document.body.clientWidth;
-        myHeight = document.body.clientHeight;
+        windowWidth = document.body.clientWidth;
+        windowHeight = document.body.clientHeight;
       }
     }
   }
-  document.getElementById('map').style.width = myWidth - 20 + 'px';
-  document.getElementById('map').style.height = myHeight - 20 + 'px';
+  document.getElementById('map').style.width = windowWidth - 20 + 'px';
+  document.getElementById('map').style.height = windowHeight - 20 + 'px';
+  // set max height to aside with nearest object
+  $('.aside-nearest').css('max-height', windowHeight + 'px');
 }
 MapSetSize();
 
@@ -93,6 +95,36 @@ function concatResult() {
   }
 }
 
+// Display block with neares objects
+function Nearest(dataStFull) {
+  dataStFull.sort(CompareObjectsInArray);
+  var nearestContainer = document.getElementById('nearestContainer');
+  var html = '<tr><th> Відстань(м.) </th><th> Назва закладу </th><th> Адреса </th></tr>';
+  for (var i = 0; i < dataStFull.length; i++) {
+    html += ('<tr><td> ' + dataStFull[i].distance + ' </td><td> ' + dataStFull[i].name + ' </td><td> ' + dataStFull[i].address + ' </td></tr>');
+  };
+
+  $('.aside-nearest, #aside-nearest-close ').show();
+  nearestContainer.innerHTML = html;
+}
+
+document.getElementById('aside-nearest-close').addEventListener('click', function() {
+  $('.aside-nearest, #aside-nearest-close ').hide();
+}, false);
+
+
+
+
+//
+function CompareObjectsInArray(a, b) {
+  if (a.distance < b.distance) {
+    return -1;
+  } else if (a.distance > b.distance) {
+    return 1;
+  } else {
+    return 0
+  }
+}
 
 
 /*
@@ -112,7 +144,8 @@ function ParseJson(result) {
       name: venue.name,
       latlng: [venue.location.lat, venue.location.lng],
       distance: venue.location.distance,
-      address: venue.location.formattedAddress,
+      addressFull: venue.location.formattedAddress,
+      address: venue.location.address,
       city: venue.location.city,
       id: venue.id,
       catName: venue.categories[0].name,
@@ -345,27 +378,9 @@ function GetCurrentLocation() {
 
 
 
-function CompareObjectsInArray(a, b) {
-  if (a.distance < b.distance) {
-    return -1;
-  } else if (a.distance > b.distance) {
-    return 1;
-  } else {
-    return 0
-  }
-}
 
-function Nearest(dataStFull) {
-  dataStFull.sort(CompareObjectsInArray);
-  var nearestContainer = document.getElementById('nearestContainer');
-  var html = '<tr> < th > Відстань(м.) < /th> < th > Назва закладу < /th> < th > Адреса < /th> < /tr>';
-  for (var i = 0; i < dataStFull.length; i++) {
-    console.log(dataStFull[i].name);
-    console.log();
-    html += ('<tr> < td > ' + dataStFull[i].distance + ' < /td> < td > ' + dataStFull[i].name + ' < /td> < td > ' + dataStFull[i].address + ' < /td> < /tr>');
-  };
-  nearestContainer.innerHTML = html;
-}
+
+
 
 
 

@@ -76,18 +76,62 @@ aside {
 .aside-nearest {
   right: 0;
 
-  width: 200px;
-  height: 200px;
+  display: none;
+  overflow: hidden;
+
+  width: 500px;
+  min-height: 1px;
 
   border-radius: $base-border-radius 0 0 $base-border-radius;
+  table {
+    width: 100%;
+    th,
+    td {
+      padding: .5em;
+      &:nth-child(1) {
+        width: 105px;
+      }
+    }
+  }
 }
 
+.aside-close {
+  font-size: 2em;
+  font-weight: 900;
+  line-height: 1;
 
+  position: absolute;
+  z-index: 15;
+  top: 0;
+
+  display: block;
+
+  text-decoration: none;
+  text-transform: uppercase;
+
+  color: #fff;
+  background-color: $blue;
+}
+#aside-control-close {
+  left: 250px;
+
+  padding: .2em .2em .2em .1em;
+
+  border-radius: 0 50% 50% 0;
+}
+#aside-nearest-close {
+  display: none;
+  right: 500px;
+
+  padding: .2em .1em .2em .2em;
+
+  border-radius: 50% 0 0 50%;
+}
 
 .k-marker {
-  background-color: red !important;
+  // background-color: red !important;
 }
 
 .k-marker-green {
-  background-color: green !important;
+  // background-color: green !important;
 }
