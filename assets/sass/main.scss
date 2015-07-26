@@ -1,17 +1,86 @@
+@import 'import/reset';
+@import 'import/variables';
+@import 'import/mixin';
+@import 'import/buttons';
+@import 'import/forms';
+@import 'import/lists';
+@import 'import/tables';
+@import 'font_fontawesome';
+@import 'font_roboto';
 @import 'sprite';
+
+
 section {
+  position: relative;
+
   width: 100%;
-}
-.search-block {
-  height: 200px;
-  padding: 50px 20%;
-  input {
-    margin: 0 auto 20px;
+  min-height: 800px;
+  #map {
     width: 100%;
-    padding: 5px;
+    height: 1000px;
   }
 }
+aside {
+  position: absolute;
+  z-index: 15;
+  top: 0;
 
+  background-color: $light-gray;
+}
+.aside-control {
+  left: 0;
+
+  width: 250px;
+  padding: 10px;
+
+  border-radius: 0 $base-border-radius $base-border-radius 0;
+  p,
+  label,
+  input,
+  .k-widget,
+  button {
+    display: block;
+
+    width: 100%;
+    margin: 0 0 .5em;
+    input {
+      width: auto;
+      margin: 0;
+    }
+  }
+  input {
+    font-size: 1em;
+    line-height: normal;
+
+    height: auto !important;
+    padding: .5em;
+
+    border: 1px solid #ddd;
+    border-radius: $base-border-radius;
+    background-color: #fff;
+    box-shadow: $form-box-shadow;
+  }
+  .sumResult {
+    font-size: .8em;
+
+    position: relative;
+
+    padding-left: 2em;
+    input {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+    }
+  }
+}
+.aside-nearest {
+  right: 0;
+
+  width: 200px;
+  height: 200px;
+
+  border-radius: $base-border-radius 0 0 $base-border-radius;
+}
 
 
 

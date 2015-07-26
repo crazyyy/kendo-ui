@@ -15,20 +15,24 @@
 <body>
 
   <section>
-    <div class="search-block">
-      <label for="searchTextField">В якому місті, або поблизу якого об'єкту шукати?</label>
+    <aside class="aside-control">
+      <p>Привіт. Я допомжу знайти будь-який заклад або об'єкт, який існує в Форсквері</p>
+      <label for="searchTextField">Місто, вулиця або щось, що поруч з тим, що шукаєм:</label>
       <input id="searchTextField" type="text" placeholder="Почніть вводити якусь адресу / організацію / заклад" autocomplete="on" runat="server" />
-
+      <p>Тип закладу/об'єкту</p>
       <input id="searchCategories" placeholder="Що шукаєм? (наприклад ресторан)" value=""/>
-      <label for="sumResult">Об'єднати результат пошуку з попереднім?<input id="sumResult" type="checkbox"></label>
+
+      <label class="sumResult" for="sumResult">Об'єднати результат пошуку з попередніми результатами?<input id="sumResult" type="checkbox"></label>
 
       <button id="goSearch">Шукати об'єкти на карті</button>
       <button id="goHome">Моє мізцезнаходження</button>
-      <button id="nearest">Найближчі об'єкти</button>
+      <button id="nearest">Що найближче?</button>
+    </aside><!-- aside-control -->
+
+    <aside class="aside-nearest">
       <table id="nearestContainer"></table>
+    </aside><!-- /.aside-nearest -->
 
-
-    </div><!-- /.search-block -->
     <div id="map"></div>
   </section>
 

@@ -286,9 +286,11 @@ table {
 }
 hr {
   -moz-box-sizing: content-box;
-  box-sizing: content-box;
+       box-sizing: content-box;
   height: 0;
 }
+
+
 dfn {
   font-style: italic;
 }
@@ -325,6 +327,8 @@ template {
 abbr[title] {
   border-bottom: 1px dotted;
 }
+
+
 small {
   font-size: 80%;
 }
@@ -354,7 +358,6 @@ nav {
 }
 img {
   width: auto; /* IE8 */
-  max-width: 100%;
   height: auto;
 
   vertical-align: bottom;
@@ -363,28 +366,7 @@ img {
   border: 0;
 }
 
-svg:not(:root) {
-  overflow: hidden;
-}
-figure,
-form {
-  margin: 0;
-}
-fieldset {
-  margin: 0;
-  padding: 0;
-
-  border: 0;
-}
-legend {
-  padding: 0;
-
-  white-space: normal;
-
-  border: 0;
-
-  *margin-left: -7px;
-}
+/* */
 .clearfix {
   *zoom: 1;
   &:before {
@@ -401,12 +383,4 @@ legend {
 }
 .clear {
   clear: both;
-}
-embed,
-iframe,
-img,
-object,
-video,
-.wp-caption {
-  max-width: 100%;
 }
