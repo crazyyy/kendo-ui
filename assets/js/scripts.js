@@ -78,13 +78,13 @@ $(searchInput).keyup(function (e) {
   }
 });
 
+// Search user defined object
 function SearchUserObject() {
   concatResult();
   searchQuery = searchInput.value;
   window.uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery', searchQuery);
   ParseAndBuildMap(centerLat, centerLng, searchQuery);
 }
-
 
 // On click - center map to current user position
 goHomeButton.addEventListener('click', function() {
@@ -130,10 +130,7 @@ document.getElementById('aside-nearest-close').addEventListener('click', functio
   $('.aside-nearest, #aside-nearest-close ').hide();
 }, false);
 
-
-
-
-//
+// Sort object by distance
 function CompareObjectsInArray(a, b) {
   if (a.distance < b.distance) {
     return -1;
@@ -149,10 +146,6 @@ function CompareObjectsInArray(a, b) {
  *
  *
  */
-
-
-
-
 
 function ParseJson(result) {
   for (var i = 0; i < result.response.venues.length; i++) {
@@ -366,28 +359,26 @@ function GoogleMapAutocomplite() {
   });
 } // GoogleMapAutocomplite
 
+
+/*
+ *  Dark Side
+*/
+
+// Get current user location
 function GetCurrentLocation() {
-  searchInput.value = '';
-  searchInput.innerHTML = '';
-  ParseAndBuildMap(centerLat, centerLng);
+  // chek deafault user coordinates
   if (Modernizr.geolocation) {
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(success, options);
     var options = {
       enableHighAccuracy: true,
       timeout: 5000,
       maximumAge: 0
     };
-
     function success(pos) {
       var crd = pos.coords;
-
-      var centerLat = crd.latitude,
-        centerLng = crd.longitude;
-      ParseAndBuildMap(centerLat, centerLng);
-    }
-
-    function error(err) {
-      console.warn('ERROR(' + err.code + '): ' + err.message);
+      // transfer current user coordinates to default
+      window.centerLat = crd.latitude;
+      window.centerLng = crd.longitude;
     }
   } else {
     console.log('location error');
@@ -395,15 +386,24 @@ function GetCurrentLocation() {
 } // GetCurrentLocation
 
 
+function Map() {
+
+  // try to define user coordinates
+  GetCurrentLocation();
+  // draw map. if in previos step we defined user coord - use it, else - used default center coordinates
+  ParseAndBuildMap(centerLat, centerLng);
+
+}
 
 
 
 
+
+
+$(document).ready(Map());
+// $(document).ready(GetCurrentLocation);
+// $(document).ready(DataImageAdd(dataStFull));
 
 
 
 google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
-
-$(document).ready(GetCurrentLocation);
-// $(document).ready(DataImageAdd(dataStFull));
-;;
