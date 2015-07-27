@@ -221,56 +221,9 @@ function ParseImage() {
 
 
 
-function MakeMarkers(dataSorces) {
-  makedMarkers = {
-    type: 'marker',
-    dataSource: dataSorces,
-    locationField: 'latlng',
-    titleField: 'name',
-    shape: 'green',
-    city: 'city',
-    // tooltip: {
-    //   template: "Lon:#= location.lng #, Lat:#= name #"
-    // }
-    tooltip: {
-      content: function(e) {
-        var marker = e.sender.marker;
-        var template = kendo.template("HTML tags are encoded: #: html #");
-        var data = {
-          html: "<strong>#= marker.dataItem.city #</strong>"
-        };
-        // return marker.dataItem.city;
-        return template(data);
-      }
-    }
-  };
-  return makedMarkers;
-}
 
-function MapDrawer(centerLat, centerLng, dataSorces) {
-  $("#map").kendoMap({
-    center: [parseFloat(centerLat), parseFloat(centerLng)],
-    zoom: 14,
-    controls: {
-      navigator: {
-        position: "topRight"
-      },
-      zoom: {
-        position: "topRight"
-      }
-    },
-    layers: [{
-        type: 'tile',
-        urlTemplate: 'http://#= subdomain #.tile2.opencyclemap.org/transport/#= zoom #/#= x #/#= y #.png',
-        subdomains: ['a', 'b', 'c']
-      },
-      MakeMarkers(dataSorces)
-    ],
-    markerClick: OnClickMarker
-      // click: OnClickMap,
-  });
-  // console.log(MakeMarkers(dataSorces));
-} // MapDrawer
+
+
 
 function SearchAndReplaceData(markerId) {
   for (var i in window.dataStFull) {
@@ -360,6 +313,7 @@ function CreateURI(centerLat, centerLng) {
   var uri = [];
   var ulr;
   // Check is the first load (#map clear)
+  // create object URI, to define what API structure we get in result after getJSON
   if ($('#map').hasClass('k-map') == false) {
     url = uriRecommendation.replace('centerLat', centerLat).replace('centerLng', centerLng).replace('fsqToken', fsqToken);
     uri.push({
@@ -373,7 +327,6 @@ function CreateURI(centerLat, centerLng) {
       id: 'default'
     })
   }
-
   // draw map. if in previos step we defined user coord - use it, else - used default center coordinates
   ParseAndBuildMap(uri, centerLat, centerLng);
 }
@@ -382,19 +335,18 @@ function CreateURI(centerLat, centerLng) {
 function ParseAndBuildMap(uri, centerLat, centerLng) {
   url = uri[0].url;
   statusId = uri[0].id;
-
   $.getJSON(url, function(result, status) {
     if (status !== 'success') return alert('Request to Foursquare failed');
-    ParseJson(result, status, statusId);
+    ParseJson(result);
     var dataSorces = new kendo.data.DataSource({
       data: dataStFull
     });
-    MapDrawer(centerLat, centerLng, dataSorces);
+    BuildMap(centerLat, centerLng, dataSorces);
   });
 } // ParseAndBuildMap
 
-function ParseJson(result, status) {
-
+// parse resolved JSON and add object ro array, then run map builder
+function ParseJson(result) {
   if ( statusId == 'default' ) {
     for (var i = 0; i < result.response.venues.length; i++) {
       var venue = result.response.venues[i];
@@ -433,13 +385,63 @@ function ParseJson(result, status) {
   } else {
     console.log('ERROR with URL');
   }
-
-  console.log(dataStFull);
-
-  return dataStFull;
 }
 
+// build map and markers
+function BuildMap(centerLat, centerLng, dataSorces) {
+  $("#map").kendoMap({
+    center: [parseFloat(centerLat), parseFloat(centerLng)],
+    zoom: 14,
+    controls: {
+      navigator: {
+        position: "topRight"
+      },
+      zoom: {
+        position: "topRight"
+      }
+    },
+    layers: [{
+        type: 'tile',
+        urlTemplate: 'http://#= subdomain #.tile2.opencyclemap.org/transport/#= zoom #/#= x #/#= y #.png',
+        subdomains: ['a', 'b', 'c']
+      },
+      MakeMarkers(dataSorces)
+    ],
+    markerClick: OnClickMarker
+      // click: OnClickMap,
+  });
+} // BuildMap
 
+function MakeMarkers(dataSorces) {
+
+  // set markers random color
+  var shapes = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+  var shape = shapes[Math.floor(Math.random()*shapes.length)];
+
+  makedMarkers = {
+    type: 'marker',
+    dataSource: dataSorces,
+    locationField: 'latlng',
+    titleField: 'name',
+    city: 'city',
+    shape: shape,
+    // tooltip: {
+    //   template: "Lon:#= location.lng #, Lat:#= name #"
+    // }
+    tooltip: {
+      content: function(e) {
+        var marker = e.sender.marker;
+        var template = kendo.template("HTML tags are encoded: #: html #");
+        var data = {
+          html: "<strong>#= marker.dataItem.city #</strong>"
+        };
+        // return marker.dataItem.city;
+        return template(data);
+      }
+    }
+  };
+  return makedMarkers;
+}
 
 
 function Map() {
@@ -448,8 +450,7 @@ function Map() {
   GetCurrentLocation();
   // create api url
   CreateURI(centerLat, centerLng);
-
-
+  // after url was created - script
 
 
 }

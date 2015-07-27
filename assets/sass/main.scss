@@ -148,9 +148,67 @@ aside {
 }
 
 .k-marker {
+  width: 28px;
+  height: 40px;
+
+  background-image: none !important;
+  &:before {
+    font-size: 3em;
+
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    content: '';
+
+    @extend .fa;
+  }
   // background-color: red !important;
 }
 
 .k-marker-green {
   // background-color: green !important;
 }
+.k-marker-red {
+  &:before {
+    color: red;
+  }
+}
+.k-marker-orange {
+  &:before {
+    color: orange;
+  }
+}
+.k-marker-yellow {
+  &:before {
+    color: yellow;
+  }
+}
+.k-marker-green {
+  &:before {
+    color: green;
+  }
+}
+.k-marker-blue {
+  &:before {
+    color: blue;
+  }
+}
+.k-marker-indigo {
+  &:before {
+    color: indigo;
+  }
+}
+.k-marker-violet {
+  &:before {
+    color: violet;
+  }
+}
+
+/* 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet' */
