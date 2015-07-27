@@ -148,9 +148,10 @@ aside {
 }
 #aside-photo-close {
   top: auto;
-  bottom: 150px;
   right: 0;
-  // display: none;
+  bottom: 150px;
+
+  display: none;
 
   padding: .2em .2em .1em .2em;
 
@@ -164,17 +165,21 @@ aside {
   bottom: 0;
   left: 0;
 
+  display: none;
+  overflow: hidden;
+
   width: 100%;
   height: 150px;
-  overflow: hidden;
   ul {
     display: block;
+
     width: 100%;
     height: 100%;
     li {
+      display: inline-block;
+
       width: 150px;
       height: 100%;
-      display: inline-block;
       img {
         width: 100%;
       }

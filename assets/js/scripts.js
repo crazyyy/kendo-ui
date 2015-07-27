@@ -332,7 +332,6 @@ function GoogleMapAutocomplite() {
 // Search user defined object
 function SearchUserObject() {
   concatResult();
-  console.log(window.searchQuery);
   window.searchQuery = searchInput.value;
   CreateURI(centerLat, centerLng);
 }
@@ -370,8 +369,6 @@ function ParseMarkerPhoto(markerId) {
       }
 
       ListObjectPhoto(photosArr);
-      console.log(photosArr);
-
   });
 } // ParseMarkerPhoto
 
@@ -387,91 +384,5 @@ function ListObjectPhoto(photosArr) {
 }
 
 
-
-
 $(document).ready(Map());
 google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
-
-
-
-
-
-
-
-
-
-
-/*
- *
- *
- */
-
-
-
-
-// function DataImageAdd(dataStFull) {
-//   for (var ii = 0; ii < dataStFull.length; ii++) {
-//     var idD = dataStFull[ii].id;
-//     var uriImage = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724';
-//     $.getJSON(uriImage, function(result, status, idD, ii) {
-
-//       if (status !== 'success') return alert('Request Img from Foursquare failed');
-//       var photosItems = result.response.photos.items;
-//       if (photosItems.length > 10) {
-//         photosItems.length = 10;
-//       }
-
-//       for (var i = 0; i < photosItems.length; i++) {
-//         photoA = photosItems[i];
-//         photosArr.push({
-//           idData: idD.toString(),
-//           idImaget: photoA.id,
-//           prefix: photoA.prefix,
-//           suffix: photoA.suffix,
-//           width: photoA.width,
-//           height: photoA.height,
-//           cropedImg: photoA.prefix + '300x300' + photoA.suffix,
-//           fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
-//         });
-
-//         // dataStFull.push(photosArr)
-
-//       }
-//       console.log(photosArr);
-
-
-//     }); // getJSON
-
-//   }
-// }
-
-
-
-
-// function ParseImage() {
-
-//   var uriImage = 'https://api.foursquare.com/v2/venues/' + id + '/photos?oauth_token=' + fsqToken + '&v=20150724';
-
-//   console.log('start test');
-//   $.getJSON(uriImage, function(result, status) {
-//     if (status !== 'success') return alert('Request Img from Foursquare failed');
-//     for (var i = 0; i < result.response.photos.items.length; i++) {
-//       photoA = result.response.photos.items[i];
-//       photosArr.push({
-//         idObject: id,
-//         idImaget: photoA.id,
-//         prefix: photoA.prefix,
-//         suffix: photoA.suffix,
-//         width: photoA.width,
-//         height: photoA.height,
-//         cropedImg: photoA.prefix + '300x300' + photoA.suffix,
-//         fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
-//       });
-
-//       console.log(photosArr.length);
-
-//     }
-//     console.log(photosArr.length);
-//   });
-
-// }
