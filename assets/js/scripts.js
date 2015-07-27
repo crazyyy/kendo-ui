@@ -1,9 +1,4 @@
 /*
- *
- *
- */
-
-/*
  *  SET VARIABLES
  */
 
@@ -91,7 +86,7 @@ nearest.addEventListener('click', function() {
   Nearest(dataStFull);
 }, false);
 
-// Add previos reslt to new search
+// Add previous resultt to new search
 function concatResult() {
   var checkBut = document.getElementById('sumResult');
   if (checkBut.checked) {
@@ -109,7 +104,7 @@ function Nearest(dataStFull) {
   var html = '<tr><th> Відстань(м.) </th><th> Назва закладу </th><th> Адреса </th></tr>';
   for (var i = 0; i < dataStFull.length; i++) {
     html += ('<tr><td> ' + dataStFull[i].distance + ' </td><td> ' + dataStFull[i].name + ' </td><td> ' + dataStFull[i].address + ' </td></tr>');
-  };
+  }
   $('.aside-nearest, #aside-nearest-close ').show();
   nearestContainer.innerHTML = html;
 }
@@ -199,7 +194,7 @@ function CreateURI(centerLat, centerLng) {
       id: 'default'
     })
   }
-  // draw map. if in previos step we defined user coord - use it, else - used default center coordinates
+  // draw map. if in previous step we defined user coord - use it, else - used default center coordinates
   ParseAndBuildMap(uri, centerLat, centerLng);
 }
 

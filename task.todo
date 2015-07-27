@@ -20,3 +20,14 @@
   ☐
   ☐
   ☐ MB have problem when get user position and draw recomendation -- !!! check logick
+  ☐
+  ☐
+  ☐
+  ☐ https://api.foursquare.com/v2/venues/explore?ll=49.233083,28.46821699999998&oauth_token=Y5YF5D0YOTAN0LSUOXTWLQJ231HABSAF3ZXJDUEWP45VH1HJ&v=20150726
+  ☐ https://api.foursquare.com/v2/venues/search?client_id=2TVA3RGPADXOJJPZY4VBRWZPJ0GNBLLKLMGEL1VTARBDJ1TV&client_secret=FK40OEGZ1ODV1GM1C0SYMB3QYN5LYECMJ0L0JGJWRXAB5WQS&v=20150717&ll=49.233083,28.46821699999998&query=restaurant&callback=
+  ☐ https://api.foursquare.com/v2/venues/4e8b2b48e5fa5654b5abe656/photos?oauth_token=Y5YF5D0YOTAN0LSUOXTWLQJ231HABSAF3ZXJDUEWP45VH1HJ&v=20150724
+  ☐
+  ☐
+  ☐
+  ☐ http://docs.telerik.com/kendo-ui/api/javascript/kendo#methods-template
+  ☐ http://docs.telerik.com/kendo-ui/api/javascript/dataviz/ui/map#configuration-markers
