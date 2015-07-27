@@ -146,6 +146,42 @@ aside {
 
   border-radius: 50% 0 0 50%;
 }
+#aside-photo-close {
+  top: auto;
+  bottom: 150px;
+  right: 0;
+  // display: none;
+
+  padding: .2em .2em .1em .2em;
+
+  border-radius: 50% 50% 0 0;
+}
+.aside-photo {
+  position: absolute;
+  z-index: 15;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  ul {
+    display: block;
+    width: 100%;
+    height: 100%;
+    li {
+      width: 150px;
+      height: 100%;
+      display: inline-block;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
+
 
 .k-marker {
   width: 28px;
@@ -169,44 +205,43 @@ aside {
 
     @extend .fa;
   }
-  // background-color: red !important;
 }
 
-.k-marker-green {
-  // background-color: green !important;
-}
 .k-marker-red {
   &:before {
-    color: red;
+    @include text3d(red);
   }
 }
 .k-marker-orange {
   &:before {
-    color: orange;
+    @include text3d(orange);
   }
 }
 .k-marker-yellow {
   &:before {
-    color: yellow;
+    @include text3d(yellow);
   }
 }
 .k-marker-green {
   &:before {
-    color: green;
+    @include text3d(green);
   }
 }
 .k-marker-blue {
   &:before {
-    color: blue;
+    @include text3d(blue);
   }
 }
 .k-marker-indigo {
   &:before {
-    color: indigo;
+    @include text3d(indigo);
   }
 }
 .k-marker-violet {
   &:before {
-    color: violet;
+    @include text3d(violet);
   }
+}
+li.k-item {
+  margin-bottom: 0 !important;
 }

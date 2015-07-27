@@ -16,7 +16,6 @@ var fsqId = '2TVA3RGPADXOJJPZY4VBRWZPJ0GNBLLKLMGEL1VTARBDJ1TV',
 var centerLat = '49.233083', // default lat, lng
   centerLng = '28.46821699999998',
   dataStFull = [],
-  photosArr = [],
   searchQuery = 'restaurant'; // default search query
 
 // buttons
@@ -27,9 +26,10 @@ var nearest = document.getElementById('nearest'); //
 var searchInput = document.getElementById('searchCategories'); // input for category search
 
 // FSQ API URI
-var SuriWork = 'https://api.foursquare.com/v2/venues/search?client_id=fsqId&client_secret=fsqSecret&v=20150717&ll=centerLat,centerLng&query=searchQuery&callback=?';
-var uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?';
+var uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=fsqId&client_secret=fsqSecret&v=20150717&ll=centerLat,centerLng&query=searchQuery&callback=?';
 var uriRecommendation = 'https://api.foursquare.com/v2/venues/explore?ll=centerLat,centerLng&oauth_token=fsqToken&v=20150726';
+var uriPhoto = 'https://api.foursquare.com/v2/venues/markerId/photos?oauth_token=fsqToken&v=20150724'
+var uriCategories = 'content/cat.json';
 // var uriImage = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724' !!!
 
 /*
@@ -80,17 +80,10 @@ $(searchInput).keyup(function (e) {
   }
 });
 
-// Search user defined object
-function SearchUserObject() {
-  concatResult();
-  searchQuery = searchInput.value;
-  window.uriWork = 'https://api.foursquare.com/v2/venues/search?client_id=' + fsqId + '&client_secret=' + fsqSecret + '&v=20150717&ll=cordCenter&query=searchQuery&callback=?'.replace('searchQuery', searchQuery);
-  ParseAndBuildMap(centerLat, centerLng, searchQuery);
-}
-
 // On click - center map to current user position
 goHomeButton.addEventListener('click', function() {
   GetCurrentLocation();
+  CreateURI(centerLat, centerLng);
 }, false);
 
 // Display block (aside) with lists of nearest objects
@@ -121,6 +114,20 @@ function Nearest(dataStFull) {
   nearestContainer.innerHTML = html;
 }
 
+// autocomplete for categories
+$("#searchCategories").kendoAutoComplete({
+  dataTextField: "name",
+  dataSource: {
+    type: "json",
+    transport: {
+      read: uriCategories
+    }
+  },
+  minLength: 1,
+  filter: "startswith",
+  placeholder: "Категорія об'єкту (напр. ресторан, бар...)"
+});
+
 // hide main search widget
 document.getElementById('aside-control-close').addEventListener('click', function() {
   $(this).toggleClass('aside-control-close-closed');
@@ -129,7 +136,12 @@ document.getElementById('aside-control-close').addEventListener('click', functio
 
 // close nearest widget
 document.getElementById('aside-nearest-close').addEventListener('click', function() {
-  $('.aside-nearest, #aside-nearest-close ').hide();
+  $('.aside-nearest, #aside-nearest-close').hide();
+}, false);
+
+// close photo list widget
+document.getElementById('aside-photo-close').addEventListener('click', function() {
+  $('.aside-photo, #aside-photo-close').hide();
 }, false);
 
 // Sort object by distance
@@ -142,146 +154,6 @@ function CompareObjectsInArray(a, b) {
     return 0
   }
 }
-
-
-/*
- *
- *
- */
-
-
-
-
-// function DataImageAdd(dataStFull) {
-//   for (var ii = 0; ii < dataStFull.length; ii++) {
-//     var idD = dataStFull[ii].id;
-//     var uriImage = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724';
-//     $.getJSON(uriImage, function(result, status, idD, ii) {
-
-//       if (status !== 'success') return alert('Request Img from Foursquare failed');
-//       var photosItems = result.response.photos.items;
-//       if (photosItems.length > 10) {
-//         photosItems.length = 10;
-//       }
-
-//       for (var i = 0; i < photosItems.length; i++) {
-//         photoA = photosItems[i];
-//         photosArr.push({
-//           idData: idD.toString(),
-//           idImaget: photoA.id,
-//           prefix: photoA.prefix,
-//           suffix: photoA.suffix,
-//           width: photoA.width,
-//           height: photoA.height,
-//           cropedImg: photoA.prefix + '300x300' + photoA.suffix,
-//           fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
-//         });
-
-//         // dataStFull.push(photosArr)
-
-//       }
-//       console.log(photosArr);
-
-
-//     }); // getJSON
-
-//   }
-// }
-
-
-
-
-function ParseImage() {
-
-  var uriImage = 'https://api.foursquare.com/v2/venues/' + id + '/photos?oauth_token=' + fsqToken + '&v=20150724';
-
-  console.log('start test');
-  $.getJSON(uriImage, function(result, status) {
-    if (status !== 'success') return alert('Request Img from Foursquare failed');
-    for (var i = 0; i < result.response.photos.items.length; i++) {
-      photoA = result.response.photos.items[i];
-      photosArr.push({
-        idObject: id,
-        idImaget: photoA.id,
-        prefix: photoA.prefix,
-        suffix: photoA.suffix,
-        width: photoA.width,
-        height: photoA.height,
-        cropedImg: photoA.prefix + '300x300' + photoA.suffix,
-        fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
-      });
-
-      console.log(photosArr.length);
-
-    }
-    console.log(photosArr.length);
-  });
-
-}
-
-
-
-
-
-
-
-function SearchAndReplaceData(markerId) {
-  for (var i in window.dataStFull) {
-    if (window.dataStFull[i].id === markerId) {
-      window.dataStFull[i].shape = 'pin';
-      console.log(window.dataStFull[i]);
-      break;
-    }
-  }
-}
-
-function OnClickMarker(e) {
-  var marker = e.marker,
-    markerId = marker.dataItem.id;
-
-  SearchAndReplaceData(markerId);
-
-  // console.log(marker.dataItem.name);
-  // marker.dataItem.set("shape", "pin");
-  // marker.dataItem.set("name", "pin");
-  // console.log(marker);
-
-}
-
-function OnClickMap(e) {
-  var centerLat = parseFloat(e.location.lat),
-    centerLng = parseFloat(e.location.lng);
-  ParseAndBuildMap(centerLat, centerLng);
-} // OnClickMap
-
-$("#searchCategories").kendoAutoComplete({
-  dataTextField: "name",
-  dataSource: {
-    type: "json",
-    transport: {
-      read: "content/cat.json"
-    }
-  },
-  minLength: 1,
-  filter: "startswith",
-  placeholder: "Категорія об'єкту (напр. ресторан, бар...)"
-});
-
-function GoogleMapAutocomplite() {
-  var input = document.getElementById('searchTextField');
-  var autocommit = new google.maps.places.Autocomplete(input);
-  google.maps.event.addListener(autocommit, 'place_changed', function() {
-    var place = autocommit.getPlace();
-    window.centerLat = place.geometry.location.lat();
-    window.centerLng = place.geometry.location.lng();
-
-    ParseAndBuildMap(centerLat, centerLng);
-  });
-} // GoogleMapAutocomplite
-
-
-
-
 
 /*
  *  Dark Side
@@ -321,7 +193,7 @@ function CreateURI(centerLat, centerLng) {
       id: 'recomendation'
     })
   } else {
-    url = SuriWork.replace('fsqId', fsqId).replace('fsqSecret', fsqSecret).replace('centerLat', centerLat).replace('centerLng', centerLng).replace('searchQuery', searchQuery);
+    url = uriWork.replace('fsqId', fsqId).replace('fsqSecret', fsqSecret).replace('centerLat', centerLat).replace('centerLng', centerLng).replace('searchQuery', searchQuery);
     uri.push({
       url: url,
       id: 'default'
@@ -407,8 +279,9 @@ function BuildMap(centerLat, centerLng, dataSorces) {
       },
       MakeMarkers(dataSorces)
     ],
-    markerClick: OnClickMarker
-      // click: OnClickMap,
+
+      click: OnClickMap,
+      markerClick: OnClickMarker
   });
 } // BuildMap
 
@@ -417,55 +290,188 @@ function MakeMarkers(dataSorces) {
   // set markers random color
   var shapes = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
   var shape = shapes[Math.floor(Math.random()*shapes.length)];
-
   makedMarkers = {
     type: 'marker',
     dataSource: dataSorces,
     locationField: 'latlng',
     titleField: 'name',
-    city: 'city',
     shape: shape,
     // tooltip: {
-    //   template: "Lon:#= location.lng #, Lat:#= name #"
+    //   template: "Lon:#= location.lng #, Lat:#= location.lat #"
     // }
-    tooltip: {
-      content: function(e) {
-        var marker = e.sender.marker;
-        var template = kendo.template("HTML tags are encoded: #: html #");
-        var data = {
-          html: "<strong>#= marker.dataItem.city #</strong>"
-        };
-        // return marker.dataItem.city;
-        return template(data);
-      }
-    }
   };
   return makedMarkers;
 }
 
 
 function Map() {
-
   // try to define user coordinates
   GetCurrentLocation();
   // create api url
   CreateURI(centerLat, centerLng);
   // after url was created - script
-
-
 }
 
 function SearchOnMap(centerLat, centerLng, searchQuery) {
   // create api url
   CreateURI(centerLat, centerLng, searchQuery);
+}
 
+function GoogleMapAutocomplite() {
+  var input = document.getElementById('searchTextField');
+  var autocommit = new google.maps.places.Autocomplete(input);
+  google.maps.event.addListener(autocommit, 'place_changed', function() {
+    var place = autocommit.getPlace();
+    window.centerLat = place.geometry.location.lat();
+    window.centerLng = place.geometry.location.lng();
+    // !!! warning bug - if not changed search query - usd default
+    CreateURI(centerLat, centerLng);
+  });
+} // GoogleMapAutocomplite
+
+// Search user defined object
+function SearchUserObject() {
+  concatResult();
+  console.log(window.searchQuery);
+  window.searchQuery = searchInput.value;
+  CreateURI(centerLat, centerLng);
+}
+
+// when user click on map - get click coord and set it default
+function OnClickMap(e) {
+  window.centerLat = parseFloat(e.location.lat);
+  window.centerLng = parseFloat(e.location.lng);
+  CreateURI(centerLat, centerLng);
+} // OnClickMap
+
+function OnClickMarker(e) {
+  var marker = e.marker;
+  var markerId = marker.dataItem.id;
+  ParseMarkerPhoto(markerId);
+}
+
+// parse photo of current markers
+function ParseMarkerPhoto(markerId) {
+  var url = uriPhoto.replace('markerId', markerId).replace('fsqToken', fsqToken)
+  $.getJSON(url, function(result, status) {
+    if (status !== 'success') return alert('Request to Foursquare failed');
+      var photosArr = [];
+      for (var i = 0; i < result.response.photos.items.length; i++) {
+        photoA = result.response.photos.items[i];
+        photosArr.push({
+          idImaget: photoA.id,
+          prefix: photoA.prefix,
+          suffix: photoA.suffix,
+          width: photoA.width,
+          height: photoA.height,
+          cropedImg: photoA.prefix + '300x300' + photoA.suffix,
+          fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
+        });
+      }
+
+      ListObjectPhoto(photosArr);
+      console.log(photosArr);
+
+  });
+} // ParseMarkerPhoto
+
+function ListObjectPhoto(photosArr) {
+  var photosContainer = document.getElementById('photosContainer');
+  var html = '';
+
+  for (var i = 0; i < photosArr.length; i++) {
+    html += ('<li><a rel="lightbox" href="' + photosArr[i].fullImg + '"><img src="' + photosArr[i].cropedImg + '" alt=""/></a></li>');
+  };
+  $('.aside-photo, #aside-photo-close').show();
+  photosContainer.innerHTML = html;
 }
 
 
+
+
 $(document).ready(Map());
-// $(document).ready(GetCurrentLocation);
-// $(document).ready(DataImageAdd(dataStFull));
-
-
-
 google.maps.event.addDomListener(window, 'load', GoogleMapAutocomplite);
+
+
+
+
+
+
+
+
+
+
+/*
+ *
+ *
+ */
+
+
+
+
+// function DataImageAdd(dataStFull) {
+//   for (var ii = 0; ii < dataStFull.length; ii++) {
+//     var idD = dataStFull[ii].id;
+//     var uriImage = 'https://api.foursquare.com/v2/venues/' + idD + '/photos?oauth_token=' + fsqToken + '&v=20150724';
+//     $.getJSON(uriImage, function(result, status, idD, ii) {
+
+//       if (status !== 'success') return alert('Request Img from Foursquare failed');
+//       var photosItems = result.response.photos.items;
+//       if (photosItems.length > 10) {
+//         photosItems.length = 10;
+//       }
+
+//       for (var i = 0; i < photosItems.length; i++) {
+//         photoA = photosItems[i];
+//         photosArr.push({
+//           idData: idD.toString(),
+//           idImaget: photoA.id,
+//           prefix: photoA.prefix,
+//           suffix: photoA.suffix,
+//           width: photoA.width,
+//           height: photoA.height,
+//           cropedImg: photoA.prefix + '300x300' + photoA.suffix,
+//           fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
+//         });
+
+//         // dataStFull.push(photosArr)
+
+//       }
+//       console.log(photosArr);
+
+
+//     }); // getJSON
+
+//   }
+// }
+
+
+
+
+// function ParseImage() {
+
+//   var uriImage = 'https://api.foursquare.com/v2/venues/' + id + '/photos?oauth_token=' + fsqToken + '&v=20150724';
+
+//   console.log('start test');
+//   $.getJSON(uriImage, function(result, status) {
+//     if (status !== 'success') return alert('Request Img from Foursquare failed');
+//     for (var i = 0; i < result.response.photos.items.length; i++) {
+//       photoA = result.response.photos.items[i];
+//       photosArr.push({
+//         idObject: id,
+//         idImaget: photoA.id,
+//         prefix: photoA.prefix,
+//         suffix: photoA.suffix,
+//         width: photoA.width,
+//         height: photoA.height,
+//         cropedImg: photoA.prefix + '300x300' + photoA.suffix,
+//         fullImg: photoA.prefix + photoA.width + 'x' + photoA.height + photoA.suffix
+//       });
+
+//       console.log(photosArr.length);
+
+//     }
+//     console.log(photosArr.length);
+//   });
+
+// }
