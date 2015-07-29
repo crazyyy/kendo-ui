@@ -115,10 +115,9 @@ gulp.task('sprite', function () {
   spriteData.css.pipe(gulp.dest(paths.styles.src));
 });
 
-// Optimize script
+// Copy web fonts to dist
 gulp.task('scripts', function () {
   gulp.src(appFiles.scripts)
-    .pipe(plugins.if('*.js', plugins.uglify()))
     .pipe(plugins.size({showFiles: true}))
     .pipe(gulp.dest(paths.scripts.dest));
 });

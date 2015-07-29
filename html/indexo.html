@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>кендо тестдо</title>
+  <meta charset="utf-8">
+  <link href="css/examples-offline.css" rel="stylesheet">
+  <link href="css/kendo.common.min.css" rel="stylesheet">
+  <link href="css/kendo.rtl.min.css" rel="stylesheet">
+  <link href="css/kendo.default.min.css" rel="stylesheet">
+  <link href="css/kendo.dataviz.min.css" rel="stylesheet">
+  <link href="css/kendo.dataviz.default.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+  <script src="js/modernizr.js"></script>
+</head>
+<body>
+
+  <section>
+    <aside class="aside-control">
+      <p>Привіт. Я допомжу знайти будь-який заклад або об'єкт, який існує в Форсквері</p>
+      <label for="searchTextField">Місто, вулиця або щось, що поруч з тим, що шукаєм:</label>
+      <input id="searchTextField" type="text" placeholder="Почніть вводити якусь адресу / організацію / заклад" autocomplete="on" runat="server" />
+      <p>Тип закладу/об'єкту</p>
+      <input id="searchCategories" placeholder="Що шукаєм? (наприклад ресторан)" value=""/>
+
+      <label class="sumResult" for="sumResult">Об'єднати результат пошуку з попередніми результатами?<input id="sumResult" type="checkbox"></label>
+
+      <button id="goSearch">Шукати об'єкти на карті</button>
+      <button id="goHome">Моє мізцезнаходження</button>
+      <button id="nearest">Що найближче?</button>
+    </aside><!-- aside-control -->
+
+    <aside class="aside-nearest" id="aside-nearest">
+      <table id="nearestContainer"></table>
+    </aside><!-- /.aside-nearest -->
+
+    <aside class="aside-photo" id="aside-photo">
+      <ul class="thumb" id="photosContainer">
+      </ul>
+    </aside><!-- /#aside-photo.aside-photo -->
+
+    <a href="#" class="aside-close" id="aside-control-close"><span class="close">x</span><span class="open">></span></a>
+    <a href="#" class="aside-close" id="aside-nearest-close">x</a>
+    <a href="#" class="aside-close" id="aside-photo-close">x</a>
+
+    <div id="map">
+    </div><!-- /#map -->
+  </section>
+
+  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/kendo.all.min.js"></script>
+  <script src="js/console.js"></script>
+  <script src="js/scripts.js"></script>
+
+</body>
+</html>
