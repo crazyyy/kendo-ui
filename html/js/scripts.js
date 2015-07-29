@@ -202,6 +202,7 @@ function CreateURI(centerLat, centerLng) {
 function ParseAndBuildMap(uri, centerLat, centerLng) {
   url = uri[0].url;
   statusId = uri[0].id;
+  console.log(url);
   $.getJSON(url, function(result, status) {
     if (status !== 'success') return alert('Request to Foursquare failed');
     ParseJson(result);

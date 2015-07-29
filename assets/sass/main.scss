@@ -23,7 +23,7 @@ aside {
   position: absolute;
   z-index: 15;
   top: 0;
-
+display: none !important;
   background-color: $light-gray;
 }
 .aside-control {
@@ -101,7 +101,7 @@ aside {
   font-size: 2em;
   font-weight: 900;
   line-height: 1;
-
+display: none !important;
   position: absolute;
   z-index: 15;
   top: 0;
