@@ -1,15 +1,38 @@
-    angular.module("KendoDemos", [ "kendo.directives" ])
-        .controller("MyCtrl", function($scope){
-            $scope.onPanEnd = function(e) {
-                kendoConsole.log(kendo.format("event :: panEnd ({0})", e.center));
-            };
+var KendoMap = angular.module('KendoMapModule', ['kendo.directives']);
 
-            $scope.markers = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: "../content/dataviz/map/store-locations.json",
-                        dataType: "json"
-                    }
-                }
-            });
-        })
+KendoMap.controller('KendoMapCtrl', function($scope, $window){
+
+  // set map height - 100%, working with resize
+  var w = angular.element($window);
+  $scope.getHeight = function() {
+    return w.height();
+  };
+  $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+    $scope.windowHeight = newValue;
+    $scope.style = function() {
+      return {
+        height: newValue + 'px'
+      };
+    };
+  });
+  w.bind('resize', function () {
+    $scope.$apply();
+  });
+
+
+
+
+
+
+
+
+  $scope.markers = new kendo.data.DataSource({
+    transport: {
+      read: {
+        url: "../content/dataviz/map/store-locations.json",
+        dataType: "json"
+      }
+    }
+  });
+
+})
